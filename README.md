@@ -1,4 +1,4 @@
-# Control Engineering Plot Generator
+# Control System Plot Generator
 
 A command-line tool for generating various control system plots (Bode, Nyquist, and Polar) from transfer functions.
 
