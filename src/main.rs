@@ -3,7 +3,7 @@ use chrono::Local;
 
 use engineering_plotter::{
     cli::CLI,
-    error::Result,
+    error::{Error, Result},
     export::JsonExporter,
     plotters::BodePlot,
     types::{FrequencyResponseData, TransferFunction},
@@ -22,6 +22,7 @@ fn run() -> Result<()> {
     let matches = CLI::build_cli().get_matches();
 
     // Parse command line arguments
+    let plot_type = matches.value_of("plot-type").unwrap_or("bode");
     let numerator = matches.value_of("numerator").unwrap();
     let denominator = matches.value_of("denominator").unwrap();
     let start_freq = matches.value_of("fstart").unwrap().parse::<f64>()?;
@@ -42,9 +43,20 @@ fn run() -> Result<()> {
         Local::now().to_rfc3339(),
     );
 
-    // Plot data
-    let plotter = BodePlot::new();
-    plotter.plot(&data, output)?;
+    // Create and use plotter based on type
+    match plot_type {
+        "bode" => {
+            let plotter = BodePlot::new();
+            plotter.plot(&data, output)?;
+        }
+        "nyquist" => {
+            return Err(Error::Plot("Nyquist plot not yet implemented".into()));
+        }
+        "polar" => {
+            return Err(Error::Plot("Polar plot not yet implemented".into()));
+        }
+        _ => unreachable!(), // clap ensures this
+    }
 
     // Export data if requested
     if let Some(export_path) = export {

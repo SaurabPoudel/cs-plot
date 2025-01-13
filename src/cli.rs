@@ -1,6 +1,5 @@
 use clap::{App, Arg};
 
-
 pub struct CLI;
 
 impl CLI {
@@ -9,10 +8,20 @@ impl CLI {
     }
 
     pub fn build_cli() -> App<'static, 'static> {
-        App::new("Bode Plot Generator")
+        App::new("Control Engineering Plot Generator")
             .version("1.0")
-            .author("Your Name")
-            .about("Generates Bode plots for transfer functions")
+            .author("Saurab Poudel poudelsaurab20@gmail.com")
+            .about("Generates various plots for transfer functions")
+            .arg(
+                Arg::with_name("plot-type")
+                    .short("t")
+                    .long("type")
+                    .value_name("TYPE")
+                    .help("Type of plot to generate (bode, nyquist, polar)")
+                    .possible_values(&["bode", "nyquist", "polar"])
+                    .default_value("bode")
+                    .required(false),
+            )
             .arg(
                 Arg::with_name("numerator")
                     .short("n")
@@ -49,25 +58,25 @@ impl CLI {
                 Arg::with_name("points")
                     .short("p")
                     .long("points")
-                    .value_name("NUM")
-                    .help("Number of frequency points")
-                    .default_value("1000"),
+                    .value_name("COUNT")
+                    .help("Number of points per decade")
+                    .default_value("50"),
             )
             .arg(
                 Arg::with_name("output")
                     .short("o")
                     .long("output")
                     .value_name("FILE")
-                    .help("Output plot file path")
-                    .default_value("bode_plot.png"),
+                    .help("Output file path")
+                    .default_value("plot.png"),
             )
             .arg(
                 Arg::with_name("export")
                     .short("x")
                     .long("export")
                     .value_name("FILE")
-                    .help("Export data (supported formats: .csv, .json)")
-                    .takes_value(true),
+                    .help("Export data to JSON/CSV file (determined by extension)")
+                    .required(false),
             )
     }
 }
