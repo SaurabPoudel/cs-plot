@@ -1,4 +1,4 @@
-# Control System Plot Generator
+# Control Engineering Plot Generator
 
 A command-line tool for generating various control system plots (Bode, Nyquist, and Polar) from transfer functions.
 
@@ -27,10 +27,15 @@ cd bode_plotter
 cargo build --release
 
 # Create a symbolic link to make it globally available as 'cs-plot'
-sudo ln -s $(pwd)/target/release/engineering_plotter /usr/local/bin/cs-plot
+sudo ln -s $(pwd)/target/release/engineering-plotter /usr/local/bin/cs-plot
 
 # Verify installation
 cs-plot --help
+```
+
+If you get a "file exists" error, you can remove the old link first:
+```bash
+sudo rm /usr/local/bin/cs-plot
 ```
 
 Now you can use the tool from anywhere by typing `cs-plot` instead of `cargo run`.
