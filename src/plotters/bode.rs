@@ -14,6 +14,7 @@ impl BodePlot {
 impl Plot for BodePlot {
     fn plot(&self, data: &FrequencyResponseData, output_path: &str) -> Result<()> {
         let root = BitMapBackend::new(output_path, (800, 600))
+
             .into_drawing_area();
         
         root.fill(&WHITE)?;
@@ -32,16 +33,16 @@ impl Plot for BodePlot {
                 .margin(5)
                 .x_label_area_size(30)
                 .y_label_area_size(30)
-                .build_cartesian_2d(
+                .build_ranged(
                     first_freq.frequency.log10()..last_freq.frequency.log10(),
                     data.responses
                         .iter()
                         .map(|r| r.magnitude_db)
-                        .fold(f64::NAN, f64::min)
+                        .fold(f64::INFINITY, f64::min)
                         ..data.responses
                             .iter()
                             .map(|r| r.magnitude_db)
-                            .fold(f64::NAN, f64::max),
+                            .fold(f64::NEG_INFINITY, f64::max),
                 )?;
 
             chart
@@ -71,16 +72,16 @@ impl Plot for BodePlot {
                 .margin(5)
                 .x_label_area_size(30)
                 .y_label_area_size(30)
-                .build_cartesian_2d(
+                .build_ranged(
                     first_freq.frequency.log10()..last_freq.frequency.log10(),
                     data.responses
                         .iter()
                         .map(|r| r.phase_deg)
-                        .fold(f64::NAN, f64::min)
+                        .fold(f64::INFINITY, f64::min)
                         ..data.responses
                             .iter()
                             .map(|r| r.phase_deg)
-                            .fold(f64::NAN, f64::max),
+                            .fold(f64::NEG_INFINITY, f64::max),
                 )?;
 
             chart

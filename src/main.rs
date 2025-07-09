@@ -5,7 +5,7 @@ use engineering_plotter::{
     cli::CLI,
     error::{Error, Result},
     export::JsonExporter,
-    plotters::BodePlot,
+    plotters::{BodePlot, NyquistPlot},
     types::{FrequencyResponseData, TransferFunction},
     Plot,
     DataExporter,
@@ -50,7 +50,8 @@ fn run() -> Result<()> {
             plotter.plot(&data, output)?;
         }
         "nyquist" => {
-            return Err(Error::Plot("Nyquist plot not yet implemented".into()));
+            let plotter = NyquistPlot::new();
+            plotter.plot(&data, output)?;
         }
         "polar" => {
             return Err(Error::Plot("Polar plot not yet implemented".into()));

@@ -6,5 +6,5 @@ pub mod types;
 
 pub use error::Result;
 pub use export::DataExporter;
-pub use plotters::{BodePlot, Plot};
+pub use plotters::{BodePlot, NyquistPlot, Plot};
 pub use types::{FrequencyResponse, FrequencyResponseData, TransferFunction};
